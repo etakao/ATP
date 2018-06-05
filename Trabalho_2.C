@@ -42,17 +42,17 @@ int opcao;
 	printf("*****************************************************************************\n");
 	printf("*                                                                           *\n");
 	printf("*                                                                           *\n");
-	printf("*                                Bem-Vindo!!!                               *\n");
+	printf("*                                   TPP 04                                  *\n");
 	printf("*                                                                           *\n");
 	printf("*                                                                           *\n");
 	printf("*****************************************************************************\n\n\n");
 		
-  printf("1 - Encontrar o MDC entre dois inteiros \n");
-  printf("2 - Encontrar o REVERSO de um inteiro\n");
-  printf("3 - Encontrar a QUANTIDADE de algarismos de um inteiro\n");
-  printf("4 - \n");
-  printf("5 - \n");
-  printf("6 - Encontrar todos os n�meros felizes no intervalo de 4 a 1000\n");
+  printf("1 - Encontrar todos os pares de primos cuja soma seja igual a n, com n no intervalo de 4 a 1000\n");
+  printf("2 - Encontrar todos os primos no intervalo delimitado\n");
+  printf("3 - Encontrar todos os primos gêmeos no intervalo delimitado\n");
+  printf("4 - Encontrar todos os primos de Mersene no intervalo de 1 a 30\n");
+  printf("5 - Encontrar todos os números felizes no intervalo de 4 a 1000\n");
+  printf("6 - Encontrar o fatorial de um número inteiro, no intervalo 0 a 30, utilizando a fórmula de Stirling\n");
   
   
   printf("\n\n Escolha a opcao desejada : ");
@@ -77,6 +77,18 @@ int ch;
   else return(0);
 }
 
+int Primo(int p){
+  int i = 3, exp;
+  if (p == 1) return(0);
+  if (p == 2) return(1);
+  if (p % 2 == 0) return(0);
+  
+  exp = (int)sqrt((double)p)+1;	// P:ímpar e último divisor antes de p é menor que sqrt(q)
+  for (; i <= exp; i=i+2)
+    if (p%i == 0)  return(0);
+  return(1);
+}
+
 int feliz (){
 	int res=0,soma=0, n=4, cn=0, aux=1;
 	for (n; n<=1000; n++){
@@ -92,13 +104,20 @@ int feliz (){
 			if (cn == 4 || cn==16 || cn==37 || cn==58 || cn==89 || cn==145 || cn==42 || cn==20 ) aux=0;
 			soma = 0;
 		}
-		if (cn==1) printf("\nO n�mero %d � feliz =)", n);
+		if (cn==1) printf("\nO número %d é feliz =)", n);
 	}
+}
+
+double Stirling(int N){
+	double e=2.7182818284, pi=3.1415926535, fat, div;
+	div=N/e;
+	fat=sqrt(2*pi*N)*pow(div, N);
+	return(fat);
 }
 
 int main(void) {
 int a, b, op = 0;
-
+setlocale(LC_ALL, "Portuguese");
 
  do {
 	op = Menu();
@@ -108,47 +127,66 @@ int a, b, op = 0;
 	
     switch(op)  {
 	case 1:
-		 printf("MDC ENTRE DOIS NUMEROS INTEIROS.\n\n");
-         printf("Introduza um valor inteiro: ");
-         scanf("%d",&a);
-		 printf("Introduza um valor inteiro: ");
-         scanf("%d",&b);
-		 
-		// printf("\n\n A= %d  B= %d",a, b);
-		 printf("\n\n  MDC(%d,%d) = %d",a,b,Mdc(a,b));
-		 printf(PULA);
-         system("Pause");
+        	system("Pause");
          break;
 
 	case 2:
-		 printf("REVERSO DE UM NUMERO INTEIRO.");
 		 system("pause");
          break;
 
 	case 3:
-		 printf("QUANTIDADE DE ALGARISMOS DE UM NUMERO INTEIRO.");
 		 system("Pause");
 		 break;
 
 	case 4:
-		 printf("K-ESIMO DIGITO DA DIREITA PARA A ESQUERDA.");
-		 break;
+		printf("*****************************************\n");
+		printf("*                                   	*\n");
+		printf("*                MERSENE                *\n");
+		printf("*                                   	*\n");
+		printf("*****************************************\n");
+	
+		int n, p, aux;
+		printf("\n\nEsse programa encontrará todos os primos dos números de Mersene variando de 1 a 30:\n\n");
+	
+		for(n=1; n<=30; n++){
+			p=pow(2, n)-1;
+			aux=Primo(p);
+			if(aux==1)
+				printf("%d\n", p);
+		
+		break;
 
 	case 5:
-		 printf("QUANTIDADE DE PRIMOS NUM INTERVALO.");
-		 break;
-
-	case 6:
-		 system("cls");
+		system("cls");
 		printf("*****************************************************************************\n");
 		printf("*                                                                           *\n");
 		printf("*                                                                           *\n");
-		printf("*                              N�meros felizes                              *\n");
+		printf("*                              NÚMEROS FELIZES                              *\n");
 		printf("*                                                                           *\n");
 		printf("*                                                                           *\n");
 		printf("*****************************************************************************\n\n\n");
-		 break;
-	case 9: printf("OUTRAS FUNCOES....");
+		
+		break;
+
+	case 6:
+		printf("*****************************************************************\n");
+		printf("*                                      				*\n");
+		printf("*                                      				*\n");
+		printf("*			FÓRMULA DE STIRLING			*\n");
+		printf("*                                      				*\n");
+		printf("*                                      				*\n");
+		printf("*****************************************************************\n\n");
+	
+		int N;
+		double fat;
+		printf("Introduza um valor entre 0 e 30:\n");
+		scanf("%d", &N);
+
+		if(0<=N<=30)
+			fat=Stirling(N);
+
+		printf("O fatorial de %d é: %lf de acordo com a Fórmula de Stirling!", N, fat);
+		
 		break;
 
 	}	//switch
