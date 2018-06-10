@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>    	// toupper
+#include <math.h>
+#include <locale.h>
 
 #define PULA  "\n\n\n"
 
@@ -48,11 +50,11 @@ int opcao;
 	printf("*****************************************************************************\n\n\n");
 		
   printf("1 - Encontrar o MDC entre dois inteiros \n");
-  printf("2 - Encontrar o REVERSO de um inteiro\n");
+  printf("2 - Descobrir primos num intervalo\n");
   printf("3 - Encontrar a QUANTIDADE de algarismos de um inteiro\n");
   printf("4 - \n");
   printf("5 - \n");
-  printf("6 - Encontrar todos os números felizes no intervalo de 4 a 1000\n");
+  printf("6 - Encontrar todos os nÃºmeros felizes no intervalo de 4 a 1000\n");
   
   
   printf("\n\n Escolha a opcao desejada : ");
@@ -92,12 +94,29 @@ int feliz (){
 			if (cn == 4 || cn==16 || cn==37 || cn==58 || cn==89 || cn==145 || cn==42 || cn==20 ) aux=0;
 			soma = 0;
 		}
-		if (cn==1) printf("\nO número %d é feliz =)", n);
+		if (cn==1) printf("\nO nÃºmero %d Ã© feliz =)", n);
 	}
 }
 
-int main(void) {
-int a, b, op = 0;
+int primo_min_max (int min, int max) {
+	int primo=0, exp1=0, cont=0, cmin=0;
+	cmin = min;
+	for (min; min <= max; min+=2) {
+    	primo = 1;
+     	exp1 = (int) sqrt(min)+1;
+     	for (int i = 3; i <= exp1; i = i+2)
+        if ( min%i == 0) { primo = 0; break; }
+  		if ( primo ) {
+       		cont++;
+      		 if ( cont%5 == 0) printf("%5d  \n", min);
+       		else printf("%5d  ", min);
+    	}  // if
+	} //for
+	printf("\n\n Existem < %d > NÃºmeros Primos em [%d,%d] \n\n\n", cont, cmin, max);
+
+int main(void) 
+setlocale(LC_ALL, "Portuguese");
+int a, b, op = 0, min=0, max=0;;
 
 
  do {
@@ -121,8 +140,20 @@ int a, b, op = 0;
          break;
 
 	case 2:
-		 printf("REVERSO DE UM NUMERO INTEIRO.");
-		 system("pause");
+		system ("cls");
+	         printf("*****************************************************************************\n");
+		 printf("*                                                                           *\n");
+		 printf("*                                                                           *\n");
+		 printf("*                  Descobrir todos os primos no intervalo                   *\n");
+		 printf("*                                                                           *\n");
+		 printf("*                                                                           *\n");
+		 printf("*****************************************************************************\n\n\n");
+		 printf("Digite o mÃ­nimo: \n");
+		 scanf("%d", &min);
+		 printf("Digite o mÃ¡ximo: \n");
+		 scanf("%d", &max);
+		 primo_min_max(min, max);
+		 system ("Pause");
          break;
 
 	case 3:
@@ -143,10 +174,12 @@ int a, b, op = 0;
 		printf("*****************************************************************************\n");
 		printf("*                                                                           *\n");
 		printf("*                                                                           *\n");
-		printf("*                              Números felizes                              *\n");
+		printf("*                              NÃºmeros felizes                              *\n");
 		printf("*                                                                           *\n");
 		printf("*                                                                           *\n");
 		printf("*****************************************************************************\n\n\n");
+		feliz();
+		system("Pause");
 		 break;
 	case 9: printf("OUTRAS FUNCOES....");
 		break;
