@@ -1,0 +1,273 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>    	// toupper
+#include <locale.h>
+#include <math.h>
+#include <conio.h>
+
+#define PULA  "\n\n\n"
+
+//====================================================================
+// Prototipos das funcoes
+int Primo(int p);
+double Stirling(int N);
+int Feliz(int n);
+int Primo_Min_Max (int min, int max);
+//====================================================================
+
+
+//====================================================================
+
+// Elaborar comentarios internos associados a cada uma das funcoes a exemplo
+// dos primeiros codigos que foram passados a voces.
+
+//====================================================================
+
+// Melhorar esse codigo
+
+int Menu(void) {
+int opcao;
+setlocale(LC_ALL, "Portuguese");
+
+  system("CLS");		// limpeza da tela
+
+	printf("*****************************************************************************\n");
+	printf("*                                                                           *\n");
+	printf("*                                                                           *\n");
+	printf("*                                   TPP 04                                  *\n");
+	printf("*                                                                           *\n");
+	printf("*                                                                           *\n");
+	printf("*****************************************************************************\n\n\n");
+		
+  printf("1 - Encontrar todos os pares de primos cuja soma seja igual a n, com n no intervalo de 4 a 1000\n");
+  printf("2 - Encontrar todos os primos no intervalo delimitado\n");
+  printf("3 - Encontrar todos os primos gêmeos no intervalo delimitado\n");
+  printf("4 - Encontrar todos os primos de Mersene no intervalo de 1 a 30\n");
+  printf("5 - Encontrar todos os números felizes no intervalo de 4 a 1000\n");
+  printf("6 - Encontrar o fatorial de um número inteiro, no intervalo 0 a 30, utilizando a fórmula de Stirling\n");
+  
+  
+  printf("\n\nEscolha a opção desejada : ");
+  scanf("%d", &opcao);
+  
+  return(opcao);
+}
+
+
+short Continua(void){
+int ch;
+setlocale(LC_ALL, "Portuguese");
+
+  do {
+		system("cls");
+        printf("\n\n\nVocê deseja executar outra função? [S,N] : ");
+		ch = getchar();
+		ch= toupper(ch);
+  }
+  while( (ch != 'S') && (ch != 'N') );
+
+  if(ch == 'S') return(1);
+  else return(0);
+}
+
+int Primo(int p){
+  int i = 3, exp;
+  if (p == 1) return(0);
+  if (p == 2) return(1);
+  if (p % 2 == 0) return(0);
+  
+  exp = (int)sqrt((double)p)+1;	// P:ímpar e último divisor antes de p é menor que sqrt(q)
+  for (; i <= exp; i=i+2)
+    if (p%i == 0)  return(0);
+  return(1);
+} // funcao Primo
+
+int Feliz(int n){
+	int res=0,soma=0, aux=1;
+	while (n>1 && aux==1){
+		while (n>0){
+			res=n%10;
+			n/= 10;
+			soma+= res*res;
+		} // while interno
+		n = soma;
+		if (n == 4 || n==16 || n==37 || n==58 || n==89 || n==145 || n==42 || n==20 ) aux=0;
+		soma = 0;
+	} // while externo
+	return(n);	
+} // funcao Feliz
+
+int Primo_Min_Max(int min, int max){
+	int primo=0, exp1=0, cont=0, cmin=0, i;
+	cmin = min;
+	for (min; min <= max; min+=2){
+    	primo = 1;
+     	exp1 = (int) sqrt(min)+1;
+     	for (i = 3; i <= exp1; i = i+2){
+        if (min%i == 0){ 
+			primo = 0; break;
+			}
+  		if (primo){
+       		cont++;
+      		if ( cont%5 == 0) printf("%5d  \n", min);
+       		else printf("%5d  ", min);
+    	} // if
+	} //for interno
+	} //for externo
+	printf("\n\n Existem < %d > Números Primos em [%d,%d] \n\n\n", cont, cmin, max);
+} // funcao Primo_Min_Max
+
+double Stirling(int n){
+	double e=2.7182818284, pi=3.1415926535, fat, div; 
+	div=n/e;
+	fat=sqrt(2*pi*n)*pow(div, n);
+	return(fat);
+} // funcao FatStirling
+
+int main(void) {
+int a, b, op = 0;
+int n, p, aux, i, j;
+setlocale(LC_ALL, "Portuguese");
+
+ do {
+	op = Menu();
+	system("cls");
+	printf("\n\nOpção escolhida foi : %d\n\n", op);
+	system("Pause"); 
+	
+    switch(op)  {
+	case 1:
+		system("cls");
+		printf("*****************************************************************************\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*                      PARES DE PRIMOS (GOLDBACH)                           *\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*****************************************************************************\n\n\n");
+	
+		printf("O programa encontrará todos os pares de primos para cada número no intervalo de 4 a 1000:\n\n");
+		
+		_getch();
+	
+		for(n=4; n<=1000; n++){
+			i=2;
+			for(i; i<=n/2; i++){
+				if(Primo(i)){
+					j=n/4;
+					for(j; j<=n; j++){
+						if(Primo(j)){
+							if(i+j==n)
+								printf("%d equivale a (%d + %d)\n", n, i, j);
+						}
+					}
+				}
+			}
+		}
+        
+		system("Pause");
+        break;
+
+	case 2:
+		system("cls");
+		printf("*****************************************************************************\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*                        PRIMOS EM UM INTERVALO                             *\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*****************************************************************************\n\n\n");
+		
+		int min, max;
+		printf("Introduza um valor mínimo: \n");
+		scanf("%d", &min);
+		printf("Intoruza um valor máximo: \n");
+		scanf("%d", &max);
+		Primo_Min_Max(min, max);
+		
+		system("pause");
+        break;
+
+	case 3:
+		system("cls");
+		
+		system("Pause");
+		break;
+
+	case 4:
+		system("cls");
+		printf("*****************************************************************************\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*                         PRIMOS DE MERSENE                                 *\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*****************************************************************************\n\n\n");
+	
+		printf("O programa encontrará todos os primos dos números de Mersene no intervalo de 1 a 30:\n\n");
+		
+		_getch();
+	
+		for(n=1; n<=30; n++){
+			p=pow(2, n)-1;
+			aux=Primo(p);
+			if(aux==1)
+				printf("%d\n", p);
+		}
+		
+		system("Pause");
+		break;
+
+	case 5:
+		system("cls");
+		printf("*****************************************************************************\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*                              NÚMEROS FELIZES                              *\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*****************************************************************************\n\n\n");
+		
+		printf("O programa mostrará todos os números felizes no intervalo de 4 a 1000:\n\n");
+		
+		_getch();
+	
+		for (n=4; n<=1000; n++){
+		aux=Feliz(n);	
+		if (aux==1) printf("O número %d é feliz\n", n);
+		}
+		
+		system("Pause");
+		break;
+
+	case 6:
+		system("cls");
+		printf("*****************************************************************************\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*                           FÓRMULA DE STIRLING                             *\n");
+		printf("*                                                                           *\n");
+		printf("*                                                                           *\n");
+		printf("*****************************************************************************\n\n\n");
+	
+		double fat;
+		printf("Introduza um valor entre 0 e 30:\n");
+		scanf("%d", &n);
+
+		if(0<=n<=30)
+			fat=Stirling(n);
+
+		printf("\n\nO fatorial de %d é: %lf de acordo com a Fórmula de Stirling!\n\n", n, fat);
+		
+		system("Pause");
+		break;
+
+	}	//switch
+
+  } while ( Continua() );
+
+ printf(PULA);
+ system("Pause");
+ return(0);
+
+}   // main
