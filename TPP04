@@ -13,6 +13,7 @@ int Primo(int p);
 double Stirling(int N);
 int Feliz(int n);
 int Primo_Min_Max (int min, int max);
+int primo_gemeo(int min, int max);
 //====================================================================
 
 
@@ -124,9 +125,31 @@ double Stirling(int n){
 	return(fat);
 } // funcao FatStirling
 
+int primo_gemeo (int min, int max) {
+	int exp1=0, exp2=0, gemeo, primo=0;
+	if (min%2==0) min+=1;
+	gemeo = min + 2;
+		for (min; min <= max; min+=2) {
+    		primo = 1;
+     		exp1 = (int) sqrt(min)+1;
+     		for (int i = 3; i <= exp1; i = i+2)
+       		if ( min%i == 0) { primo = 0; break; }
+       		if (primo){
+		     	exp2 = (int) sqrt(gemeo)+1;
+		     	for (int j = 3; j <= exp2; j+=2){
+		     		if ( gemeo%j == 0) { primo = 0; break; }
+					else { printf("(%d, %d)\n", min, gemeo); break;}	
+				 }
+			}
+		gemeo += 2;
+	}
+	
+}
+
 int main(void) {
-int a, b, op = 0;
-int n, p, aux, i, j;
+system("COLOR F1");
+int a, b, op = 0, min=0, max=0;
+int n=0, p=0, aux=0, i=0, j=0;
 setlocale(LC_ALL, "Portuguese");
 
  do {
@@ -148,7 +171,6 @@ setlocale(LC_ALL, "Portuguese");
 	
 		printf("O programa encontrará todos os pares de primos para cada número no intervalo de 4 a 1000:\n\n");
 		
-		_getch();
 	
 		for(n=4; n<=1000; n++){
 			i=2;
@@ -206,7 +228,6 @@ setlocale(LC_ALL, "Portuguese");
 	
 		printf("O programa encontrará todos os primos dos números de Mersene no intervalo de 1 a 30:\n\n");
 		
-		_getch();
 	
 		for(n=1; n<=30; n++){
 			p=pow(2, n)-1;
@@ -230,7 +251,6 @@ setlocale(LC_ALL, "Portuguese");
 		
 		printf("O programa mostrará todos os números felizes no intervalo de 4 a 1000:\n\n");
 		
-		_getch();
 	
 		for (n=4; n<=1000; n++){
 		aux=Feliz(n);	
@@ -267,6 +287,7 @@ setlocale(LC_ALL, "Portuguese");
   } while ( Continua() );
 
  printf(PULA);
+ printf("                                                                      A program made by Lucas Honorato and Erick Takao\n\n");
  system("Pause");
  return(0);
 
